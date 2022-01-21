@@ -24,27 +24,34 @@ class _SignUpState extends State<SignUp> {
       final String email = emailcontroller.text;
       final String password = passwordcontroller.text;
       try {
-        auth.createUserWithEmailAndPassword(email: email,  password: password);
-        print("SignUp");
-        
+        await auth.createUserWithEmailAndPassword(email: email, password: password);
+        print("Added");
       } catch (e) {
           print("Error");
       }
     }
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset("assets/login-logo.png",height: 200, width: 200,),
-              TextField(decoration: InputDecoration(labelText: "Enter UserName"),),
-              TextField(decoration: InputDecoration(labelText: "Enter Email"),),
-              TextField(decoration: InputDecoration(labelText: "Enter Password"),),
-              SizedBox(height: 20,),
-              ElevatedButton(onPressed: SIGNUP, child: const Text("SignUp"))
-            ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(20),
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset("assets/login-logo.png",height: 200, width: 200,),
+                TextField(
+                  controller: usernamecontroller,
+                  decoration: InputDecoration(labelText: "Enter UserName"),),
+                TextField(
+                  controller: emailcontroller,
+                  decoration: InputDecoration(labelText: "Enter Email"),),
+                TextField(
+                  controller: passwordcontroller,
+                  decoration: InputDecoration(labelText: "Enter Password"),),
+                SizedBox(height: 20,),
+                ElevatedButton(onPressed: SIGNUP, child: const Text("SignUp"))
+              ],
+            ),
           ),
         ),
       ),
