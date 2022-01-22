@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class SignUp extends StatefulWidget {
@@ -20,12 +21,17 @@ class _SignUpState extends State<SignUp> {
 
     void SIGNUP()async{
       FirebaseAuth auth = FirebaseAuth.instance;
+      FirebaseFirestore db = FirebaseFirestore.instance;
       final String username = usernamecontroller.text;
       final String email = emailcontroller.text;
       final String password = passwordcontroller.text;
       try {
-        await auth.createUserWithEmailAndPassword(email: email, password: password);
-        print("Added");
+        final UserCredential user = await auth.createUserWithEmailAndPassword(email: email, password: password);
+        await db.collection("Users").doc(user.user!.uid).set({
+          "email": email,
+          "username": username,
+        });
+        print("User Registered");
       } catch (e) {
           print("Error");
       }
