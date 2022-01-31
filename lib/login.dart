@@ -3,37 +3,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-class SignUp extends StatefulWidget {
-  const SignUp({ Key? key }) : super(key: key);
+class Login extends StatefulWidget {
+  const Login({ Key? key }) : super(key: key);
 
   @override
-  _SignUpState createState() => _SignUpState();
+  _LoginState createState() => _LoginState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
 
-    final TextEditingController usernamecontroller = TextEditingController();
     final TextEditingController emailcontroller = TextEditingController();
     final TextEditingController passwordcontroller = TextEditingController();
 
-    void SIGNUP()async{
-      final String username = usernamecontroller.text;
+    void login()async{
       final String email = emailcontroller.text;
       final String password = passwordcontroller.text;
       final FirebaseAuth auth = FirebaseAuth.instance;
       final FirebaseFirestore db = FirebaseFirestore.instance;
       
       try {
-        final UserCredential user = await auth.createUserWithEmailAndPassword(email: email, password: password);
-        var response = db.collection("Credentials").doc(auth.currentUser?.uid).set({
-                  'name': username,
-                  'user_Id': auth.currentUser?.uid,
-                  'email': email,
-                }
-                );  
-        print("SignUp");
+        final UserCredential user = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+        final  DocumentSnapshot snapshot = await db.collection("Credential").doc(auth.currentUser?.uid).get();
+
+        print("LoggedIn");
 
       } catch (e) {
           print("Error");
@@ -49,16 +44,13 @@ class _SignUpState extends State<SignUp> {
               children: [
                 Image.asset("assets/login-logo.png",height: 200, width: 200,),
                 TextField(
-                  controller: usernamecontroller,
-                  decoration: InputDecoration(labelText: "Enter UserName"),),
-                TextField(
                   controller: emailcontroller,
                   decoration: InputDecoration(labelText: "Enter Email"),),
                 TextField(
                   controller: passwordcontroller,
                   decoration: InputDecoration(labelText: "Enter Password"),),
                 SizedBox(height: 20,),
-                ElevatedButton(onPressed: SIGNUP, child: const Text("SignUp"))
+                ElevatedButton(onPressed: login, child: const Text("Login"))
               ],
             ),
           ),
