@@ -18,18 +18,22 @@ class _LoginState extends State<Login> {
     final TextEditingController passwordcontroller = TextEditingController();
 
     void login()async{
+      final String name = "";
       final String email = emailcontroller.text;
       final String password = passwordcontroller.text;
       final FirebaseAuth auth = FirebaseAuth.instance;
       final FirebaseFirestore db = FirebaseFirestore.instance;
-      
-      try {
+        try {
+        
         final UserCredential user = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-        final  DocumentSnapshot snapshot = await db.collection("Credential").doc(auth.currentUser?.uid).get();
-
+          email: email, 
+          password: password);
+        final  DocumentSnapshot snapshot = await db.collection("Credentials").doc(auth.currentUser?.uid).get();
+        final data = snapshot.data();
+        print(data["user_Id"]);
         print("LoggedIn");
-
+        print(data);
+        
       } catch (e) {
           print("Error");
       }
