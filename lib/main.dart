@@ -1,5 +1,7 @@
 import 'package:firebase_app/SignUp.dart';
 import 'package:firebase_app/Login.dart';
+import 'package:firebase_app/home.dart';
+import 'package:firebase_app/post.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -15,7 +17,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(body: Login(),),
+      home: Login(),
+      routes: {
+        "/signup": (context) => SignUp(),
+        "/login": (context) => Login(), 
+        "/post": (context) => Post(),
+        "/home": (context) => Home(), 
+      },
     );
   }
 }

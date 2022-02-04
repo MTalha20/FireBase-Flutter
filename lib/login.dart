@@ -30,9 +30,8 @@ class _LoginState extends State<Login> {
           password: password);
         final  DocumentSnapshot snapshot = await db.collection("Credentials").doc(auth.currentUser?.uid).get();
         final data = snapshot.data();
-        print(data["user_Id"]);
-        print("LoggedIn");
-        print(data);
+        
+        Navigator.of(context).pushNamed("/home");
         
       } catch (e) {
           print("Error");
